@@ -69,56 +69,9 @@
   border-radius: 0.5rem;
 }
 
-/* Style selector */
-.style-selector {
-  margin-top: 1.25rem;
-}
-
-.style-label {
-  color: #a0a0c0;
-  font-size: 0.85rem;
-  margin-bottom: 0.5rem;
-}
-
-.style-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.style-chip {
-  padding: 0.35rem 0.75rem;
-  border-radius: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.06);
-  color: #c0c0e0;
-  font-size: 0.8rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.style-chip:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.3);
-  color: #fff;
-}
-
-.style-chip.active {
-  background: linear-gradient(135deg, #6c63ff, #5e60ce);
-  border-color: transparent;
-  color: #fff;
-  font-weight: 600;
-}
-
 @media (max-width: 480px) {
   .funny-image {
     max-height: 45vh;
     max-width: 280px;
-  }
-
-  .style-chip {
-    font-size: 0.75rem;
-    padding: 0.3rem 0.6rem;
   }
 }
