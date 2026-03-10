@@ -235,7 +235,7 @@ const BOTTOM_CAPTIONS = [
 function applyMemeText(ctx, w, h) {
   ctx.save()
 
-  const rng = seededRng(Date.now() ^ 0xBEEF)
+  const rng = seededRng(Date.now() + 1)
   const topText    = TOP_CAPTIONS[Math.floor(rng() * TOP_CAPTIONS.length)]
   const bottomText = BOTTOM_CAPTIONS[Math.floor(rng() * BOTTOM_CAPTIONS.length)]
 
