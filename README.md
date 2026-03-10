@@ -74,14 +74,16 @@ The app is automatically deployed to GitHub Pages on every push to the `main` br
 1. GitHub Actions checks out the code on `ubuntu-latest`
 2. Installs Node 20 and runs `npm ci`
 3. Runs `npm run build` (Vite build with `base: '/photo-editor/'`)
-4. Uploads the `dist/` folder as a Pages artifact
-5. Deploys to `https://ananyabhattdev.github.io/photo-editor/`
+4. Uploads the `dist/` folder as a Pages artifact via `actions/upload-pages-artifact`
+5. Deploys to `https://ananyabhattdev.github.io/photo-editor/` via `actions/deploy-pages`
 
-### First-time setup (if deploying to a fork)
+### First-time setup
+
+> **Important:** GitHub Pages must be enabled in your repository settings before the deployment workflow can succeed.
 
 1. Go to **Settings → Pages** in your GitHub repository
-2. Set **Source** to **GitHub Actions**
-3. Push to `main` — the workflow handles everything else
+2. Under **Source**, select **GitHub Actions**
+3. Push to `main` (or re-run the workflow from the **Actions** tab) — the workflow handles everything else
 
 ---
 
@@ -132,7 +134,8 @@ photo-editor/
 - Try tapping "Flip" to switch to the back camera
 
 ### GitHub Pages shows 404
-- Ensure **Settings → Pages → Source** is set to **GitHub Actions** (not a branch)
+- Ensure **Settings → Pages → Source** is set to **GitHub Actions**
+- Check the **Actions** tab for any deployment errors
 - Wait ~2 minutes after a push for the first deployment to complete
 
 ---
