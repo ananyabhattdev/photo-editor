@@ -189,9 +189,8 @@ const STICKER_EMOJIS = ['🤣', '😂', '🤪', '🤖', '👾', '💥', '✨', '
 function applyEmojiStickers(ctx, w, h) {
   ctx.save()
 
-  // Deterministic pseudo-random using a simple seed so the same image always
-  // gets the same stickers (reproducible results)
-  const rng = seededRng(42)
+  // Use current timestamp as seed so each generation produces different results
+  const rng = seededRng(Date.now())
 
   const count = 12
   const fontSize = Math.round(Math.min(w, h) * 0.075)
@@ -236,7 +235,7 @@ const BOTTOM_CAPTIONS = [
 function applyMemeText(ctx, w, h) {
   ctx.save()
 
-  const rng = seededRng(99)
+  const rng = seededRng(Date.now() + 1)
   const topText    = TOP_CAPTIONS[Math.floor(rng() * TOP_CAPTIONS.length)]
   const bottomText = BOTTOM_CAPTIONS[Math.floor(rng() * BOTTOM_CAPTIONS.length)]
 
