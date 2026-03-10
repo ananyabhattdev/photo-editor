@@ -8,7 +8,7 @@ import './App.css'
  * App component — manages the overall flow:
  * 1. CAMERA  → user starts camera and captures a photo
  * 2. PREVIEW → user sees the captured photo and clicks Submit
- * 3. RESULT  → funny AI-transformed image is shown
+ * 3. RESULT  → funny avatar is generated using DiceBear
  */
 function App() {
   // 'camera' | 'preview' | 'result'
@@ -42,9 +42,9 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <div className="header-emoji">🤖</div>
-        <h1>Funny AI Photo</h1>
-        <p className="tagline">Take a selfie · Get a hilarious AI makeover</p>
+        <div className="header-emoji">🎭</div>
+        <h1>Funny Avatar Maker</h1>
+        <p className="tagline">Take a selfie · Get a hilarious funny avatar</p>
       </header>
 
       <main className="app-main">
