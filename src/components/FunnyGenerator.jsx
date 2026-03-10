@@ -1,81 +1,75 @@
 import { useEffect, useState, useRef } from 'react'
-import { createAvatar } from '@dicebear/core'
-import * as collection from '@dicebear/collection'
+import { applyFunnyEffects } from '../utils/canvasEffects'
 import './FunnyGenerator.css'
-
-/**
- * Available DiceBear avatar styles with display names.
- * Each entry maps a human-readable label to a style object from the collection.
- */
-const AVATAR_STYLES = [
-  { key: 'funEmoji',    label: 'Fun Emoji',    style: collection.funEmoji },
-  { key: 'bottts',      label: 'Robots',       style: collection.bottts },
-  { key: 'adventurer',  label: 'Adventurer',   style: collection.adventurer },
-  { key: 'bigSmile',    label: 'Big Smile',    style: collection.bigSmile },
-  { key: 'lorelei',     label: 'Lorelei',      style: collection.lorelei },
-  { key: 'thumbs',      label: 'Thumbs',       style: collection.thumbs },
-  { key: 'pixelArt',    label: 'Pixel Art',    style: collection.pixelArt },
-  { key: 'croodles',    label: 'Croodles',     style: collection.croodles },
-]
 
 /**
  * FunnyGenerator component
  *
- * Generates funny avatars using the DiceBear library instead of
- * AI-generated images. Users can switch between avatar styles
- * and randomise their seed for new variations.
+ * Generates a funny avatar by applying canvas-based effects (cartoon
+ * filter, big-head warp, emoji stickers, meme text, etc.) to the
+ * user's captured photo.  Each "Randomise" click re-runs the effects
+ * with fresh random elements (emoji placement, captions).
  */
 function FunnyGenerator({ imageDataUrl, onFunnyReady, funnyImage, onTryAgain }) {
   const [processing, setProcessing] = useState(false)
   const [error, setError] = useState(null)
-  const [activeStyleIdx, setActiveStyleIdx] = useState(0)
-  const [seed, setSeed] = useState(() => String(Date.now()))
-  const processedRef = useRef(false)
+  const [seed, setSeed] = useState(() => Date.now())
+  const canvasRef = useRef(null)
 
-  /* Generate avatar when the component mounts or style/seed changes */
+  /* Generate avatar when the component mounts or seed changes */
   useEffect(() => {
     if (!imageDataUrl) return
 
-    const generate = () => {
+    let cancelled = false
+
+    const generate = async () => {
       setProcessing(true)
       setError(null)
       try {
-        const { style } = AVATAR_STYLES[activeStyleIdx]
-        const avatar = createAvatar(style, {
-          seed,
-          size: 512,
-          radius: 10,
-        })
-        const dataUri = avatar.toDataUri()
-        onFunnyReady(dataUri)
+        const canvas = canvasRef.current
+        const dataUrl = await applyFunnyEffects(canvas, imageDataUrl)
+        if (!cancelled) {
+          onFunnyReady(dataUrl)
+        }
       } catch (err) {
         console.error('FunnyGenerator error:', err)
-        setError('Oops! Something went wrong generating the avatar. Please try again.')
+        if (!cancelled) {
+          setError('Oops! Something went wrong generating the avatar. Please try again.')
+        }
       } finally {
-        setProcessing(false)
+        if (!cancelled) {
+          setProcessing(false)
+        }
       }
     }
 
-    generate()
-  }, [imageDataUrl, activeStyleIdx, seed, onFunnyReady])
+    generate().catch((err) => {
+      console.error('Unhandled FunnyGenerator error:', err)
+    })
 
-  /** Randomise the seed for a new avatar variation */
+    return () => { cancelled = true }
+  }, [imageDataUrl, seed, onFunnyReady])
+
+  /** Randomise effects for a new avatar variation */
   const handleRandomise = () => {
-    setSeed(String(Date.now()))
+    setSeed(Date.now())
   }
 
-  /** Trigger download of the avatar as SVG */
+  /** Trigger download of the avatar as PNG */
   const handleDownload = () => {
     if (!funnyImage) return
     const link = document.createElement('a')
     link.href = funnyImage
-    link.download = `funny-avatar-${Date.now()}.svg`
+    link.download = `funny-avatar-${Date.now()}.png`
     link.click()
   }
 
   return (
     <div className="funny-card card">
       <h2 className="section-title">🎭 Your Funny Avatar</h2>
+
+      {/* Hidden canvas used for image processing */}
+      <canvas ref={canvasRef} aria-hidden="true" style={{ display: 'none' }} />
 
       {/* Processing state */}
       {processing && (
@@ -104,24 +98,6 @@ function FunnyGenerator({ imageDataUrl, onFunnyReady, funnyImage, onTryAgain }) 
             className="funny-image"
           />
           <div className="funny-badge">AVATAR 🎭</div>
-        </div>
-      )}
-
-      {/* Style selector */}
-      {!processing && (
-        <div className="style-selector">
-          <p className="style-label">Choose a style:</p>
-          <div className="style-chips">
-            {AVATAR_STYLES.map((s, idx) => (
-              <button
-                key={s.key}
-                className={`style-chip ${idx === activeStyleIdx ? 'active' : ''}`}
-                onClick={() => setActiveStyleIdx(idx)}
-              >
-                {s.label}
-              </button>
-            ))}
-          </div>
         </div>
       )}
 
