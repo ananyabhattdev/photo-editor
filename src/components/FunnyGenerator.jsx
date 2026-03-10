@@ -43,7 +43,9 @@ function FunnyGenerator({ imageDataUrl, onFunnyReady, funnyImage, onTryAgain }) 
       }
     }
 
-    generate()
+    generate().catch((err) => {
+      console.error('Unhandled FunnyGenerator error:', err)
+    })
 
     return () => { cancelled = true }
   }, [imageDataUrl, seed, onFunnyReady])
@@ -67,7 +69,7 @@ function FunnyGenerator({ imageDataUrl, onFunnyReady, funnyImage, onTryAgain }) 
       <h2 className="section-title">🎭 Your Funny Avatar</h2>
 
       {/* Hidden canvas used for image processing */}
-      <canvas ref={canvasRef} style={{ display: 'none' }} />
+      <canvas ref={canvasRef} aria-hidden="true" style={{ display: 'none' }} />
 
       {/* Processing state */}
       {processing && (
