@@ -11,7 +11,7 @@ function ImagePreview({ imageDataUrl, onSubmit, onRetake }) {
   return (
     <div className="preview-card card">
       <h2 className="section-title">🖼️ Your Photo</h2>
-      <p className="preview-hint">Happy with the shot? Hit <strong>Submit</strong> to make it funny!</p>
+      <p className="preview-hint">Happy with the shot? Hit <strong>Submit</strong> to generate a funny avatar!</p>
 
       <div className="preview-image-wrapper">
         <img
@@ -24,7 +24,7 @@ function ImagePreview({ imageDataUrl, onSubmit, onRetake }) {
 
       <div className="btn-group">
         <button className="btn btn-primary" onClick={onSubmit}>
-          🤣 Submit &amp; Make it Funny!
+          🎭 Submit &amp; Generate Avatar!
         </button>
         <button className="btn btn-secondary" onClick={onRetake}>
           🔁 Retake

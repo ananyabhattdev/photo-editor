@@ -2,7 +2,7 @@
 
 .funny-card {
   width: 100%;
-  max-width: 600px;
+  max-width: 480px;
 }
 
 /* Processing overlay */
@@ -35,25 +35,21 @@
   100% { content: '...'; }
 }
 
-.processing-sub {
-  color: #7070a0;
-  font-size: 0.82rem;
-}
-
-/* Canvas — hidden; we only show the img */
-.funny-canvas {
-  display: none;
-}
-
 /* Result image */
 .funny-result {
   position: relative;
   border-radius: 1rem;
   overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
 }
 
 .funny-image {
   width: 100%;
+  max-width: 360px;
   display: block;
   border-radius: 1rem;
   max-height: 55vh;
@@ -64,7 +60,7 @@
   position: absolute;
   top: 0.6rem;
   right: 0.75rem;
-  background: rgba(255, 107, 107, 0.85);
+  background: rgba(108, 99, 255, 0.85);
   color: #fff;
   font-size: 0.7rem;
   font-weight: 700;
@@ -73,8 +69,56 @@
   border-radius: 0.5rem;
 }
 
+/* Style selector */
+.style-selector {
+  margin-top: 1.25rem;
+}
+
+.style-label {
+  color: #a0a0c0;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.style-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.style-chip {
+  padding: 0.35rem 0.75rem;
+  border-radius: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  color: #c0c0e0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.style-chip:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+
+.style-chip.active {
+  background: linear-gradient(135deg, #6c63ff, #5e60ce);
+  border-color: transparent;
+  color: #fff;
+  font-weight: 600;
+}
+
 @media (max-width: 480px) {
   .funny-image {
     max-height: 45vh;
+    max-width: 280px;
+  }
+
+  .style-chip {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
   }
 }
